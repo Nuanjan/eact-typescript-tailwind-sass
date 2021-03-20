@@ -17,7 +17,7 @@ const Routes = () => {
         <Switch>
             <AppRoute path="/" exact={true} layout={FrontLayout} component={Home}/>
             <AppRoute path="/about" exact={true} layout={FrontLayout} component={About}/>
-            <AppRoute path="/team" exact={true} layout={FrontLayout} component={Team}/>
+            <AppRoute path="/teams" exact={true} layout={FrontLayout} component={Team}/>
             <AppRoute path="/projects" exact={true} layout={FrontLayout} component={Project}/>
         </Switch>
     )

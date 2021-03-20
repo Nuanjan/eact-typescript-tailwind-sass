@@ -1,8 +1,23 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { NavLink } from 'react-router-dom'
+import {useState, useRef} from 'react';
+import UseOutsideClick from './UseOutsideClick';
+
 
 const Navbar = () => {
+    // create state to save menu status
+    const [isActive, setIsActive] = useState(false);
+
+// create variable for show/ hide menu when click outside of element
+const ref = useRef<HTMLDivElement>(null);
+
+
+UseOutsideClick(ref, () => {
+  setIsActive(false)
+})
+    // create function event for more button
+
   return (
     <nav className="bg-gray-800 fixed w-full z-20">
       <div className="container mx-auto px-2 sm:px-6 lg:px-8">
@@ -67,15 +82,23 @@ const Navbar = () => {
                   Projects
                 </NavLink>
                 
-                <div className="relative">
+                <div ref={ref} className="relative">
 
                 {/* Item active: "text-gray-900", Item inactive: "text-gray-500" */}
-                <button type="button" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 inline-flex rounded-md text-sm font-medium" aria-expanded="false">
+                <button type="button" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 inline-flex rounded-md text-sm font-medium" 
+                aria-expanded="false"
+                onClick={() => {setIsActive(!isActive)}}>
                   <span>More</span>
-                  <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                  </svg>
-                  
+                  {
+                    isActive ?
+                         <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        </svg>
+                    :
+                        <svg className="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    }               
                 </button>
 
                 {/*
@@ -89,7 +112,7 @@ const Navbar = () => {
                 */}
 
                 
-                  <div className="block absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
+                  <div className={`${isActive? 'block': 'hidden'} absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0`}>
                   <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden" >
                     <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                       <a href="#" className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50">
@@ -222,7 +245,7 @@ const Navbar = () => {
       </div>
 
           {/* เมนูโหมด Mobile */}
-          <div className="sm:hidden block" id="mobile-menu">
+          <div className="hidden sm:hidden block" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
               <NavLink exact to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" >
